@@ -13,9 +13,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.android.popularmovies.R;
+import com.example.android.popularmovies.models.Movie;
+import com.example.android.popularmovies.utilities.MovieDBJsonUtils;
 import com.example.android.popularmovies.utilities.NetworkUtils;
 
+import org.json.JSONException;
+
 import java.io.IOException;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -92,6 +97,12 @@ public class MovieListFragment extends Fragment {
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             Log.v(TAG,s);
+            try {
+                List<Movie> data = MovieDBJsonUtils.getMovieListFromJson(s);
+                Log.v(TAG, String.valueOf(data.size()));
+            } catch (JSONException e) {
+                Log.v(TAG, e.getMessage());
+            }
         }
     }
 }

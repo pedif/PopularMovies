@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
-import java.net.URI;
 import java.net.URL;
 import java.util.Scanner;
 
@@ -53,7 +52,7 @@ public class NetworkUtils {
      * @return
      * @throws IOException
      */
-    private static final String getReponseFromHttpUrl(URL url) throws IOException {
+    private static final String getResponseFromHttpUrl(URL url) throws IOException {
 
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
         try {
@@ -77,11 +76,11 @@ public class NetworkUtils {
      *
      * @return
      * @see NetworkUtils#buildUrl
-     * @see NetworkUtils#getReponseFromHttpUrl(URL)
+     * @see NetworkUtils#getResponseFromHttpUrl(URL)
      */
     public static String getPopularMovieList() throws IOException {
 
-        return getReponseFromHttpUrl(buildUrl(MOVIE_POPULAR_URL));
+        return getResponseFromHttpUrl(buildUrl(MOVIE_POPULAR_URL));
     }
 
     /**
@@ -89,11 +88,11 @@ public class NetworkUtils {
      *
      * @return
      * @see NetworkUtils#buildUrl
-     * @see NetworkUtils#getReponseFromHttpUrl(URL)
+     * @see NetworkUtils#getResponseFromHttpUrl(URL)
      */
     public static String getHighestRatedMovieList() throws IOException {
 
-        return getReponseFromHttpUrl(buildUrl(MOVIE_TOP_URL));
+        return getResponseFromHttpUrl(buildUrl(MOVIE_TOP_URL));
 
     }
 
