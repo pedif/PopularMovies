@@ -15,12 +15,21 @@ import java.util.List;
 public class MovieDBJsonUtils {
 
 
+    //Json Tags
     private static final String TAG_MOVIE_LIST = "results";
     private static final String TAG_MOVIE_ID = "id";
     private static final String TAG_MOVIE_TITLE = "title";
     private static final String TAG_MOVIE_POPULARITY = "popularity";
     private static final String TAG_MOVIE_VOTE = "vote_average";
+    private static final String TAG_MOVIE_POSTER="poster_path";
+    private static final String TAG_MOVIE_DATE="release_date";
 
+    /**
+     * Returns a list containing all movie objects from the json Object
+     * @param result representing a jsonObject string value
+     * @return
+     * @throws JSONException
+     */
     public static List<Movie> getMovieListFromJson(String result) throws JSONException {
 
         JSONObject json = new JSONObject(result);
@@ -35,6 +44,8 @@ public class MovieDBJsonUtils {
             movie.setTitle(item.getString(TAG_MOVIE_TITLE));
             movie.setPopularity(item.getDouble(TAG_MOVIE_POPULARITY));
             movie.setVote(item.getDouble(TAG_MOVIE_VOTE));
+            movie.setPoster(item.getString(TAG_MOVIE_POSTER));
+            movie.setDate(item.getString(TAG_MOVIE_DATE));
             movies.add(movie);
         }
         return movies;

@@ -10,6 +10,7 @@ public class Movie {
     double popularity;
     String genre;
     String date;
+    String poster;
 
     public Movie() {
 
@@ -61,5 +62,13 @@ public class Movie {
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    public void setPoster(String poster) {
+        this.poster = poster;
+    }
+
+    public String getPoster() {
+        return poster;
     }
 }
