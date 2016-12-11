@@ -28,7 +28,7 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
     Context mContext;
 
     public interface InteractionListener {
-        void onItemClickListener();
+        void onItemClickListener(long id);
     }
 
     public MovieListAdapter(List<Movie> items, InteractionListener listener) {
@@ -80,7 +80,7 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
 
         @Override
         public void onClick(View view) {
-            mListener.onItemClickListener();
+            mListener.onItemClickListener(mItems.get(getAdapterPosition()).getId());
         }
     }
 }

@@ -1,0 +1,56 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.android.popularmovies.fragments.MovieListFragment">
+
+    <TextView
+        android:id="@+id/frag_detail_movie_tv_title"
+        style="@style/TextAppearance.AppCompat.Display2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/detail_title"
+        android:padding="@dimen/activity_vertical_margin"
+        android:text="Guardian of galaxy"
+        android:textColor="@android:color/white" />
+
+    <ImageView
+        android:id="@+id/frag_detail_movie_img"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/frag_detail_movie_tv_title"
+        android:adjustViewBounds="true"
+        android:padding="@dimen/activity_vertical_margin"
+        android:scaleType="fitXY"
+        android:src="@drawable/placeholder" />
+
+    <TextView
+        android:id="@+id/frag_detail_movie_tv_date"
+        style="@style/Base.TextAppearance.AppCompat.Title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/frag_detail_movie_tv_title"
+        android:layout_margin="@dimen/activity_vertical_margin"
+        android:layout_toRightOf="@id/frag_detail_movie_img"
+        android:text="2017" />
+
+    <TextView
+        style="@style/Base.TextAppearance.AppCompat.Title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/frag_detail_movie_tv_date"
+        android:layout_margin="@dimen/activity_vertical_margin"
+        android:layout_toRightOf="@id/frag_detail_movie_img"
+        android:text="8/10"
+        android:id="@+id/frag_detail_movie_tv_rate" />
+
+    <TextView
+        style="@style/Base.TextAppearance.AppCompat.Title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/activity_vertical_margin"
+        android:layout_below="@id/frag_detail_movie_img"
+        android:text="klkjfdglkaslkfgjsldkfjklhb vh jhnviDCkj dsaf alkdfsk"
+        android:id="@+id/frag_detail_movie_tv_overview" />
+
+</RelativeLayout>

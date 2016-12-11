@@ -96,6 +96,17 @@ public class NetworkUtils {
 
     }
 
+    /**
+     * returns a string containing full information of a movie
+     *
+     * @return
+     * @see NetworkUtils#buildUrl
+     * @see NetworkUtils#getResponseFromHttpUrl(URL)
+     */
+    public static String getMovieData(long id) throws IOException {
 
+        return getResponseFromHttpUrl(buildUrl(String.valueOf(id)));
+
+    }
 }
 

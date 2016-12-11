@@ -11,6 +11,7 @@ public class Movie {
     String genre;
     String date;
     String poster;
+    String overview;
 
     public Movie() {
 
@@ -70,5 +71,13 @@ public class Movie {
 
     public String getPoster() {
         return poster;
+    }
+
+    public void setOverview(String overview) {
+        this.overview = overview;
+    }
+
+    public String getOverview() {
+        return overview;
     }
 }

@@ -21,11 +21,14 @@ public class MovieDBJsonUtils {
     private static final String TAG_MOVIE_TITLE = "title";
     private static final String TAG_MOVIE_POPULARITY = "popularity";
     private static final String TAG_MOVIE_VOTE = "vote_average";
-    private static final String TAG_MOVIE_POSTER="poster_path";
-    private static final String TAG_MOVIE_DATE="release_date";
+    private static final String TAG_MOVIE_POSTER = "poster_path";
+    private static final String TAG_MOVIE_DATE = "release_date";
+    private static final String TAG_MOVIE_OVERVIEW = "overview";
+
 
     /**
      * Returns a list containing all movie objects from the json Object
+     *
      * @param result representing a jsonObject string value
      * @return
      * @throws JSONException
@@ -51,4 +54,25 @@ public class MovieDBJsonUtils {
         return movies;
     }
 
+    /**
+     * Returns a list containing all movie objects from the json Object
+     *
+     * @param result representing a jsonObject string value
+     * @return
+     * @throws JSONException
+     */
+    public static Movie getMovieFullInfoFromJson(String result) throws JSONException {
+
+        JSONObject json = new JSONObject(result);
+
+        Movie movie = new Movie();
+        movie.setId(json.getLong(TAG_MOVIE_ID));
+        movie.setTitle(json.getString(TAG_MOVIE_TITLE));
+        movie.setPopularity(json.getDouble(TAG_MOVIE_POPULARITY));
+        movie.setVote(json.getDouble(TAG_MOVIE_VOTE));
+        movie.setPoster(json.getString(TAG_MOVIE_POSTER));
+        movie.setDate(json.getString(TAG_MOVIE_DATE));
+        movie.setOverview(json.getString(TAG_MOVIE_OVERVIEW));
+        return movie;
+    }
 }
