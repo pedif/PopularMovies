@@ -1,9 +1,12 @@
 package com.example.android.popularmovies.fragments;
 
 
+import android.graphics.drawable.GradientDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -16,6 +19,7 @@ import com.example.android.popularmovies.R;
 import com.example.android.popularmovies.models.Movie;
 import com.example.android.popularmovies.utilities.MovieDBJsonUtils;
 import com.example.android.popularmovies.utilities.NetworkUtils;
+import com.example.android.popularmovies.views.MovieListAdapter;
 
 import org.json.JSONException;
 
@@ -25,11 +29,13 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MovieListFragment extends Fragment {
+public class MovieListFragment extends Fragment implements MovieListAdapter.InteractionListener {
 
     private static final String TAG = MovieListFragment.class.getSimpleName();
     private static MovieListFragment instance;
 
+    private RecyclerView moviesRecyclerView;
+    private MovieListAdapter mAdapter;
 
     public static MovieListFragment getInstance() {
         if (instance == null) {
@@ -48,7 +54,13 @@ public class MovieListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_movie_list, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_movie_list, container, false);
+
+        moviesRecyclerView = (RecyclerView) rootView.findViewById(R.id.frag_movie_list_rv_movies);
+        GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 2, GridLayoutManager.VERTICAL, false);
+        moviesRecyclerView.setLayoutManager(layoutManager);
+
+        return rootView;
     }
 
     @Override
@@ -65,6 +77,11 @@ public class MovieListFragment extends Fragment {
                 return true;
         }
         return false;
+    }
+
+    @Override
+    public void onItemClickListener() {
+
     }
 
     private class GetMovieListTask extends AsyncTask<Integer, Void, String> {
@@ -96,10 +113,12 @@ public class MovieListFragment extends Fragment {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            Log.v(TAG,s);
+            Log.v(TAG, s);
             try {
                 List<Movie> data = MovieDBJsonUtils.getMovieListFromJson(s);
                 Log.v(TAG, String.valueOf(data.size()));
+                mAdapter = new MovieListAdapter(data, MovieListFragment.this);
+                moviesRecyclerView.setAdapter(mAdapter);
             } catch (JSONException e) {
                 Log.v(TAG, e.getMessage());
             }
