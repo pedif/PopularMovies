@@ -13,6 +13,7 @@ import com.example.android.popularmovies.models.Movie;
 import com.example.android.popularmovies.utilities.Constants;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.zip.Inflater;
 
@@ -23,7 +24,7 @@ import static com.example.android.popularmovies.utilities.Constants.MOVIE_PIC_BA
  */
 public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.MovieViewHolder> {
 
-    List<Movie> mItems;
+    ArrayList<Movie> mItems;
     InteractionListener mListener;
     Context mContext;
 
@@ -31,7 +32,7 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
         void onItemClickListener(long id);
     }
 
-    public MovieListAdapter(List<Movie> items, InteractionListener listener) {
+    public MovieListAdapter(ArrayList<Movie> items, InteractionListener listener) {
 
         mItems = items;
         mListener = listener;
@@ -50,6 +51,9 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
         holder.bind(mItems.get(position));
     }
 
+    public ArrayList<Movie> getmItems(){
+        return  mItems;
+    }
     @Override
     public int getItemCount() {
         return mItems.size();

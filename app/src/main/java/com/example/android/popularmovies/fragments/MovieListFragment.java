@@ -28,6 +28,7 @@ import com.example.android.popularmovies.views.MovieListAdapter;
 import org.json.JSONException;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -37,6 +38,7 @@ public class MovieListFragment extends Fragment implements MovieListAdapter.Inte
 
     private static final String TAG = MovieListFragment.class.getSimpleName();
     private static final String STATE_LAYOUT_MANAGER = "manager_state";
+    private static final String ADAPTER_DATA = "adapter_data";
     private static MovieListFragment instance;
 
     private RecyclerView moviesRecyclerView;
@@ -63,25 +65,39 @@ public class MovieListFragment extends Fragment implements MovieListAdapter.Inte
         View rootView = inflater.inflate(R.layout.fragment_movie_list, container, false);
 
         moviesRecyclerView = (RecyclerView) rootView.findViewById(R.id.frag_movie_list_rv_movies);
+        mLayoutManager = new GridLayoutManager(getActivity(), 2, GridLayoutManager.VERTICAL, false);
+        moviesRecyclerView.setLayoutManager(mLayoutManager);
 
-        //TODO restoring state is not working....
-        if(moviesRecyclerView.getLayoutManager()==null) {
-            mLayoutManager = new GridLayoutManager(getActivity(), 2, GridLayoutManager.VERTICAL, false);
-            moviesRecyclerView.setLayoutManager(mLayoutManager);
-        }else if(savedInstanceState!=null){
-            Parcelable managerState = savedInstanceState.getParcelable(STATE_LAYOUT_MANAGER);
-            if(managerState!=null)
-             moviesRecyclerView.getLayoutManager().onRestoreInstanceState(managerState);
+        if (savedInstanceState != null) {
+
+            if (savedInstanceState.containsKey(ADAPTER_DATA)) {
+                ArrayList<Movie> lst = savedInstanceState.getParcelableArrayList(ADAPTER_DATA);
+                mAdapter = new MovieListAdapter(lst, MovieListFragment.this);
+                moviesRecyclerView.setAdapter(mAdapter);
+            } else {
+                new GetMovieListTask().execute(R.id.action_popular);
+            }
+
+            if (savedInstanceState.containsKey(STATE_LAYOUT_MANAGER)) {
+                moviesRecyclerView.getLayoutManager()
+                        .onRestoreInstanceState(savedInstanceState.getParcelable(STATE_LAYOUT_MANAGER));
+            }
+
+        } else {
+            new GetMovieListTask().execute(R.id.action_popular);
         }
 
         return rootView;
     }
 
-    //TODO Not working
     @Override
     public void onSaveInstanceState(Bundle outState) {
+
+        if (mAdapter != null) {
+            outState.putParcelableArrayList(ADAPTER_DATA, mAdapter.getmItems());
+        }
+        outState.putParcelable(STATE_LAYOUT_MANAGER, moviesRecyclerView.getLayoutManager().onSaveInstanceState());
         super.onSaveInstanceState(outState);
-        outState.putParcelable(STATE_LAYOUT_MANAGER,moviesRecyclerView.getLayoutManager().onSaveInstanceState());
     }
 
     @Override
@@ -101,12 +117,11 @@ public class MovieListFragment extends Fragment implements MovieListAdapter.Inte
     }
 
 
-
     @Override
     public void onItemClickListener(long id) {
 
         Intent intent = new Intent(getActivity(), DetailActivity.class);
-        intent.putExtra(Constants.EXTRA_MOVIE_ID,id);
+        intent.putExtra(Constants.EXTRA_MOVIE_ID, id);
         startActivity(intent);
     }
 
@@ -133,7 +148,7 @@ public class MovieListFragment extends Fragment implements MovieListAdapter.Inte
                 Log.v(TAG, e.getMessage());
             }
 
-            return null;
+            return "";
         }
 
         @Override
@@ -142,8 +157,7 @@ public class MovieListFragment extends Fragment implements MovieListAdapter.Inte
             Log.v(TAG, s);
             try {
                 List<Movie> data = MovieDBJsonUtils.getMovieListFromJson(s);
-                Log.v(TAG, String.valueOf(data.size()));
-                mAdapter = new MovieListAdapter(data, MovieListFragment.this);
+                mAdapter = new MovieListAdapter((ArrayList<Movie>) data, MovieListFragment.this);
                 moviesRecyclerView.setAdapter(mAdapter);
             } catch (JSONException e) {
                 Log.v(TAG, e.getMessage());

@@ -1,9 +1,12 @@
 package com.example.android.popularmovies.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by Pedram on 12/11/2016.
  */
-public class Movie {
+public class Movie implements Parcelable {
     long id;
     String title;
     double vote;
@@ -15,6 +18,17 @@ public class Movie {
 
     public Movie() {
 
+    }
+
+    public Movie(Parcel p) {
+        id = p.readLong();
+        title = p.readString();
+        vote = p.readDouble();
+        popularity = p.readDouble();
+        genre = p.readString();
+        date = p.readString();
+        poster = p.readString();
+        overview = p.readString();
     }
 
     public long getId() {
@@ -80,4 +94,38 @@ public class Movie {
     public String getOverview() {
         return overview;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeLong(id);
+        parcel.writeString(title);
+        parcel.writeDouble(vote);
+        parcel.writeDouble(popularity);
+        parcel.writeString(genre);
+        parcel.writeString(date);
+        parcel.writeString(poster);
+        parcel.writeString(overview);
+    }
+
+    public final Parcelable.Creator<Movie> CREATOR = new ClassLoaderCreator<Movie>() {
+        @Override
+        public Movie createFromParcel(Parcel parcel, ClassLoader classLoader) {
+            return new Movie(parcel);
+        }
+
+        @Override
+        public Movie createFromParcel(Parcel parcel) {
+            return new Movie(parcel);
+        }
+
+        @Override
+        public Movie[] newArray(int i) {
+            return new Movie[0];
+        }
+    };
 }
