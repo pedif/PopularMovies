@@ -68,6 +68,7 @@ public class MovieListFragment extends Fragment implements MovieListAdapter.Inte
         mLayoutManager = new GridLayoutManager(getActivity(), 2, GridLayoutManager.VERTICAL, false);
         moviesRecyclerView.setLayoutManager(mLayoutManager);
 
+        //restore previous state
         if (savedInstanceState != null) {
 
             if (savedInstanceState.containsKey(ADAPTER_DATA)) {
