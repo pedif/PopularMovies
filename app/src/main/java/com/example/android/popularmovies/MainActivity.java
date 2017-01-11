@@ -1,15 +1,23 @@
 package com.example.android.popularmovies;
 
-import android.support.v4.view.MenuItemCompat;
+import android.content.ContentProviderOperation;
+import android.content.ContentValues;
+import android.content.Intent;
+import android.content.OperationApplicationException;
+import android.database.Cursor;
+import android.net.Uri;
+import android.os.RemoteException;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.widget.ArrayAdapter;
-import android.widget.Spinner;
+import android.util.Log;
 
+import com.example.android.popularmovies.data.db.FavoriteMovieColumns;
+import com.example.android.popularmovies.data.db.MovieProvider;
 import com.example.android.popularmovies.fragments.MovieListFragment;
+import com.example.android.popularmovies.services.UpdateMovieDBIntentService;
+import com.example.android.popularmovies.utilities.IntentUtils;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -20,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         getSupportFragmentManager().beginTransaction().replace(R.id.frag_container, MovieListFragment.getInstance()).commit();
 
+        startService(IntentUtils.getPopularMovieUpdateIntent(this));
     }
 
 

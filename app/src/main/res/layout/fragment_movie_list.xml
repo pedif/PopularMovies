@@ -5,6 +5,7 @@
     tools:context="com.example.android.popularmovies.fragments.MovieListFragment">
 
    <TextView
+       android:id="@+id/frag_movie_list_tv_no_data"
        android:layout_width="match_parent"
        android:layout_height="wrap_content"
        android:gravity="center_horizontal"

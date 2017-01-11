@@ -1,5 +1,8 @@
 package com.example.android.popularmovies.utilities;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.util.Log;
 
@@ -21,21 +24,44 @@ public class NetworkUtils {
     private static final String TAG = NetworkUtils.class.getSimpleName();
 
     //Specific urls used for accessing different data from the movie DB API
-    private static final String MOVIE_API_URL = "https://api.themoviedb.org/3/movie/";
+    private static final String MOVIE_API_URL = "https://api.themoviedb.org/3/movie";
     private static final String MOVIE_POPULAR_URL = "popular";
     private static final String MOVIE_TOP_URL = "top_rated";
+    private static final String MOVIE_TRAILER = "videos";
+    private static final String MOVIE_REVIEW = "reviews";
     private static final String QUERY_API_KEY = "api_key";
 
+    /**
+     * Checks network connectivity
+     *
+     * @param context
+     * @return
+     */
+    public static boolean isConnected(Context context) {
+
+        ConnectivityManager cm = (ConnectivityManager) context
+                .getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        if (netInfo != null && netInfo.isConnectedOrConnecting()) {
+            return true;
+        }
+        return false;
+    }
 
     /**
      * Builds an URL upon movie list url with added query params
      *
-     * @param childUrl dynamic url appended to base api url
+     * @param paths list of dynamic paths to be appended to  base uri
      * @return
      */
-    private static URL buildUrl(String childUrl) {
-        Uri buildUri = Uri.parse(MOVIE_API_URL + childUrl).buildUpon()
-                .appendQueryParameter(QUERY_API_KEY, BuildConfig.MOVIE_API_KEY).build();
+    private static URL buildUrl(String... paths) {
+
+        Uri.Builder buildUri = Uri.parse(MOVIE_API_URL).buildUpon();
+        for (String path : paths) {
+            buildUri.appendPath(path);
+        }
+        buildUri.appendQueryParameter(QUERY_API_KEY, BuildConfig.MOVIE_API_KEY).build();
+
         URL url = null;
         try {
             url = new URL(buildUri.toString());
@@ -99,6 +125,7 @@ public class NetworkUtils {
     /**
      * returns a string containing full information of a movie
      *
+     * @param id Movie ID
      * @return
      * @see NetworkUtils#buildUrl
      * @see NetworkUtils#getResponseFromHttpUrl(URL)
@@ -108,5 +135,34 @@ public class NetworkUtils {
         return getResponseFromHttpUrl(buildUrl(String.valueOf(id)));
 
     }
+
+    /**
+     * returns a string containing trailers of a movie
+     *
+     * @param id Movie ID
+     * @return
+     * @see NetworkUtils#buildUrl
+     * @see NetworkUtils#getResponseFromHttpUrl(URL)
+     */
+    public static String getMovieTrailerList(long id) throws IOException {
+
+        return getResponseFromHttpUrl(buildUrl(String.valueOf(id), MOVIE_TRAILER));
+
+    }
+
+    /**
+     * returns a string containing trailers of a movie
+     *
+     * @param id Movie ID
+     * @return
+     * @see NetworkUtils#buildUrl
+     * @see NetworkUtils#getResponseFromHttpUrl(URL)
+     */
+    public static String getMovieReviewList(long id) throws IOException {
+
+        return getResponseFromHttpUrl(buildUrl(String.valueOf(id), MOVIE_REVIEW));
+
+    }
+
 }
 

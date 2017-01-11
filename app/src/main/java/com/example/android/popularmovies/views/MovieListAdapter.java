@@ -51,9 +51,15 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
         holder.bind(mItems.get(position));
     }
 
-    public ArrayList<Movie> getmItems(){
+    public ArrayList<Movie> getItems(){
         return  mItems;
     }
+
+    public void setItems(ArrayList<Movie> mItems) {
+        this.mItems = mItems;
+        notifyDataSetChanged();
+    }
+
     @Override
     public int getItemCount() {
         return mItems.size();
@@ -77,7 +83,7 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
 
         public void bind(Movie movie) {
 
-            Picasso.with(mContext).load(MOVIE_PIC_BASE_PATH + movie.getPoster()).into(posterImageView);
+            Picasso.with(mContext).load(movie.getPoster()).into(posterImageView);
             titleTextView.setText(movie.getTitle());
             rateTextView.setText(String.valueOf(movie.getVote()));
         }

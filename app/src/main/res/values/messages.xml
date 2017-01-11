@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="message_no_data">No data was found. Please check your internet connection.</string>
+    <string name="message_deleted">is removed from your favorite list</string>
+    <string name="message_added">is added to your favorite list</string>
 </resources>
